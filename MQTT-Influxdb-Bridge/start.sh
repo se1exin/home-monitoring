@@ -1,0 +1,9 @@
+ INFLUXDB_ADDRESS="10.1.1.100" \
+ INFLUXDB_USER="root" \
+ INFLUXDB_PASSWORD="root" \
+ INFLUXDB_DATABASE="sensor_test" \
+ MQTT_ADDRESS="10.1.1.100" \
+ MQTT_TOPIC="home/+/+" \
+ MQTT_REGEX="home/([^/]+)/([^/]+)" \
+ MQTT_CLIENT_ID="MQTTInfluxDBBridge" \
+ python main.py 
