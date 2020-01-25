@@ -6,4 +6,6 @@
  MQTT_TOPIC="home/+/+" \
  MQTT_REGEX="home/([^/]+)/([^/]+)" \
  MQTT_CLIENT_ID="MQTTInfluxDBBridge" \
+ MQTT_IGNORE_DEVICES="" \
+ MQTT_IGNORE_MEASUREMENTS="config,status" \
  python main.py 

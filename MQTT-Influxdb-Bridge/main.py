@@ -27,9 +27,13 @@ MQTT_PASSWORD = os.environ.get('MQTT_PASSWORD')
 MQTT_TOPIC = os.environ.get('MQTT_TOPIC')
 MQTT_REGEX = os.environ.get('MQTT_REGEX')
 MQTT_CLIENT_ID = os.environ.get('MQTT_CLIENT_ID')
+MQTT_IGNORE_DEVICES = os.environ.get('MQTT_IGNORE_DEVICES', "")
+MQTT_IGNORE_MEASUREMENTS = os.environ.get('MQTT_IGNORE_MEASUREMENTS', "")
 
 influxdb_client = InfluxDBClient(INFLUXDB_ADDRESS, INFLUXDB_PORT, INFLUXDB_USER, INFLUXDB_PASSWORD, None)
 
+IGNORED_DEVICES = MQTT_IGNORE_DEVICES.split(",")
+IGNORED_MEASUREMENTS  = MQTT_IGNORE_MEASUREMENTS.split(",")
 
 class SensorData(NamedTuple):
     device: str
@@ -56,7 +60,9 @@ def _parse_mqtt_message(topic, payload):
     if match:
         device = match.group(1)
         measurement = match.group(2)
-        if measurement == 'status':
+        if device in IGNORED_DEVICES:
+            return None
+        if measurement in IGNORED_MEASUREMENTS:
             return None
         return SensorData(device, measurement, float(payload))
     else:
